@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div>
+      <h1>Exemplo dinâmico</h1>
+      <div id="dados">
+        <h2 id="nome">XXXX</h2>
+        <p>E-mail: <span id="email"></span></p>
+        <p>Telefone: <span id="telefone"></span></p>
+        <p>Data nascimento: <span id="dataNascimento"></span></p>
+        <p>Conhecimentos:</p>
+        <ul id="conhecimentos">
+        </ul>
+      </div>
+    </div>
+    <script>
+      function carregarDados() {
+        const dados = {
+          nome: "Fulano da Silva",
+          email: "fulano@teste.com.br",
+          telefone: "(11) 9999-1122",
+          dataNascimento: "2000-10-20",
+          conhecimentos: [ "Java", "HTML", "CSS", "Javascript"]
+        };
+
+        document.getElementById("nome").innerHTML = dados.nome;
+        document.getElementById("email").innerHTML = dados.email;
+        document.getElementById("telefone").innerHTML = dados.telefone;
+        document.getElementById("dataNascimento").innerHTML = dados.dataNascimento;
+
+        const elUl = document.getElementById("conhecimentos");
+        elUl.innerHTML = "";
+        for (let i = 0; i < dados.conhecimentos.length; i++) {
+          elUl.insertAdjacentHTML('beforeend', '<li>' + dados.conhecimentos[i] + '</li>');
+        }
+
+      }
+
+      carregarDados();
+
+    </script>
+  </body>
+</html>

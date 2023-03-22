@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div>
+      <h1>Exemplo AJAX - Carregar array de dados</h1>
+      <button id="btnCarregar">Carregar dados</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+          </tr>
+        </thead>
+        <tbody id="dados-tabela">
+
+        </tbody>
+      </table>
+    </div>
+    <script>
+
+      function montarHTML(dados) {
+        return '<tr>' +
+            '<td>' + dados.nome + '</td>' +
+            '<td>' + dados.email + '</td>' +
+            '<td>' + dados.telefone + '</td>' +
+            '</tr>';
+      }
+
+      function carregarDados() {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'dados-array.json', true);
+
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            const dadosArr = JSON.parse(xhr.responseText);
+            
+            const elTbody = document.getElementById('dados-tabela');
+            elTbody.innerHTML = '';
+            for (let i = 0; i < dadosArr.length; i++) {
+              elTbody.insertAdjacentHTML('beforeend', montarHTML(dadosArr[i]));
+            }
+
+          } else {
+            alert('Erro: ' + xhr.status);
+          }
+        };
+
+        xhr.send();
+      }
+      document.getElementById('btnCarregar').onclick = function(evt) {
+        carregarDados();
+      }
+    </script>
+  </body>
+</html>

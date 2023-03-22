@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "Fernando Tsuda",
+    "email": "fernando.tsuda@sp.senac.br",
+    "telefone": "(11) 99999-1234"
+  },
+  {
+    "nome": "Gabriel Albuquerque",
+    "email": "gabriel.albuquerque@teste.com.br",
+    "telefone": "(11) 99999-0001"
+  },
+  {
+  "nome": "Rodrigo Carvalho",
+  "email": "rodrigo.carvalho@teste.com.br",
+  "telefone": "(11) 99999-0002"
+  }
+]

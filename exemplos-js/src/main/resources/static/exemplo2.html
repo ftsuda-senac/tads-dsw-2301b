@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Exemplo Bloco informações complexo</h1>
+    <div id="resultado">
+
+    </div>
+    <button id="btnMostrarInfo">Mostrar informações</button>
+    <script>
+      let objProduto = {
+        nome: 'Bolo de chocolate',
+        dataValidade: '2023-03-10',
+        preco: 50.0,
+        ingredientes: ['Farinha', 'Ovo', 'Chocolate em pó']
+      }
+      let htmlIngredientes = objProduto.ingredientes.map(function(item) {
+          return '<li>' + item + '</li>'
+      })
+      let resultado = '<h2>' + objProduto.nome + '</h2>' +
+        '<p>Data validade: <span>' + objProduto.dataValidade + '</span></p>' +
+        '<p>Preço: <span>' + objProduto.preco + '</span></p>' +
+        '<p>Ingredientes:</p>' +
+        '<ul>' +
+        '</ul>';
+
+      function mostrarInfo() {
+        document.getElementById('resultado').innerHTML = resultado;
+        document.getElementById('resultado').style.color = '#f00';
+        document.getElementById('resultado').style.backgroundColor = '#ddd'; // camelCase, não background-color
+        document.getElementById('resultado').style.border = '3px dotted #aaa';
+      }
+
+      document.getElementById('btnMostrarInfo').onclick = mostrarInfo;
+
+    </script>
+  </body>
+</html>

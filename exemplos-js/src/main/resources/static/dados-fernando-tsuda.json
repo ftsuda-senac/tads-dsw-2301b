@@ -1,0 +1,13 @@
+{
+  "nome": "Fernando Tsuda",
+  "email": "fernando.tsuda@sp.senac.br",
+  "telefone": "(11) 99999-1234",
+  "dataNascimento": "1982-01-01",
+  "conhecimentos": [
+    "Java",
+    "Spring Framework",
+    "SQL",
+    "REST",
+    "Gerenciamento de Projetos"
+  ]
+}

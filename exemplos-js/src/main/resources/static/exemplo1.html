@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      function gerarLista() {
+        for (let i = 1; i <= 1000; i++) {
+          // let elementoUl = document.getElementById('resultado');
+          let elementoUl = document.querySelector('#resultado');
+          elementoUl.insertAdjacentHTML('beforeend', '<li>Item ' + i + '</li>');
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('btnListar').onclick = gerarLista;
+      });
+    </script>
+  </head>
+  <body>
+    <div>
+      <h1>Exemplo 1</h1>
+      <h2>Mostrar 1000 itens ao clicar no botão</h2>
+      <button id="btnListar">Listar itens</button>
+      <ul id="resultado">
+      </ul>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "nome": "Rodrigo Carvalho",
+  "email": "rodrigo.carvalho@teste.com.br",
+  "telefone": "(11) 99999-0002",
+  "dataNascimento": "1997-01-25",
+  "conhecimentos": [
+    "Swift",
+    "Java",
+    "Javascript",
+    "MySQL"
+  ]
+}

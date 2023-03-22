@@ -1,0 +1,13 @@
+{
+  "nome": "Gabriel Albuquerque",
+  "email": "gabriel.albuquerque@teste.com.br",
+  "telefone": "(11) 99999-0001",
+  "dataNascimento": "2001-07-15",
+  "conhecimentos": [
+    "HTML",
+    "Javascript",
+    "Java",
+    "CSS",
+    "Sinuca"
+  ]
+}
