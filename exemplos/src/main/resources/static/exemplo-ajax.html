@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div>
+      <h1>Página AJAX</h1>
+      <label>Nome: </label>
+      <input type="text" id="txtNome" />
+      <button id="btnCarregar">Carregar dados</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+          </tr>
+        </thead>
+        <tbody id="dados-tabela">
+
+        </tbody>
+      </table>
+    </div>
+    <script>
+
+      function montarHTML(dados) {
+        return '<tr>' +
+            '<td>' + dados.nome + '</td>' +
+            '<td>' + dados.email + '</td>' +
+            '<td>' + dados.telefone + '</td>' +
+            '</tr>';
+      }
+
+      function buscarDadosJson(urlJson) {
+        // Versão arrow function:
+        return new Promise((resolve, reject) => {
+
+        // Versão com função anônima
+        // return new Promise(function (resolve, reject) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', urlJson, true);
+
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              const dadosArr = JSON.parse(xhr.responseText);
+              resolve(dadosArr);
+            } else {
+              reject({
+                status: xhr.status,
+                mensagem: 'Erro na requisição'
+              });
+            }
+          };
+          xhr.send();
+        });
+      }
+
+      async function carregarDados() {
+        let nomePreenchido = document.getElementById('txtNome').value;
+        if (!nomePreenchido) {
+          return
+        }
+        try {
+          // query strings
+          const dadosArr = await buscarDadosJson('rest/exemplo04b?nome=' + nomePreenchido + "&telefone=(21) 98888-0011");
+
+          const elTbody = document.getElementById('dados-tabela');
+          elTbody.innerHTML = '';
+
+          elTbody.insertAdjacentHTML('beforeend', montarHTML(dadosArr));
+
+        } catch(err) {
+          alert('ERRO: ' + err.status + '\r\n' + err.mensagem);
+        }
+      }
+
+      document.getElementById('btnCarregar').onclick = function(evt) {
+        carregarDados();
+      }
+    </script>
+  </body>
+</html>
