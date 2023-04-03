@@ -1,6 +1,10 @@
 package br.senac.tads.dsw.exemplos;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +51,9 @@ public class ExemploRestController {
     }
 
     @GetMapping("/exemplo04b")
-    public DadosPessoais ex04b(@RequestParam("nome") String nome, @RequestParam("telefone") String telefone) {
+    public DadosPessoais ex04b(
+        @RequestParam("nome") String nome,
+        @RequestParam("telefone") String telefone) {
         String email = nome.split(" ")[0].toLowerCase();
         email = email.concat("@teste.com.br");
 
@@ -56,6 +62,44 @@ public class ExemploRestController {
         dados.setEmail(email);
         dados.setTelefone(telefone);
         return dados;
+    }
+
+    @GetMapping("/exemplo05/{apelido}")
+    public DadosPessoais exemplo05(@PathVariable String apelido) {
+        DadosPessoais dados = new DadosPessoais();
+        dados.setNome(apelido);
+        dados.setEmail(apelido + "@teste.com.br");
+        dados.setTelefone("(11) 98765-1122");
+        return dados;
+    }
+
+    @GetMapping("/exemplo05b/{apelido}/{numero}")
+    public DadosPessoais exemplo05(
+        @PathVariable String apelido,
+        @PathVariable Integer numero) {
+        DadosPessoais dados = new DadosPessoais();
+        dados.setNome(apelido);
+        dados.setEmail(apelido + "@teste.com.br");
+        dados.setTelefone("(11) 98765-1122");
+        dados.setNumero(numero);
+        return dados;
+    }
+
+    @GetMapping("/header-user-agent")
+    public String exemploHeader(@RequestHeader("user-agent") String userAgent) {
+        boolean isMobile = userAgent.toLowerCase().contains("mobile");
+        if (isMobile) {
+            return "Acesso via dispositivo móvel";
+        } else {
+            return "Acesso normal";
+        }
+        //return userAgent;
+    }
+
+    @GetMapping("/todos-cabecalhos")
+    public Map<String, String> exemploTodosCabecalhos(
+        @RequestHeader Map<String, String> cabecalhos) {
+        return cabecalhos;
     }
     
 }

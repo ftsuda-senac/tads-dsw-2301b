@@ -7,6 +7,8 @@ public class DadosPessoais {
 
     private String telefone;
 
+    private Integer numero;
+
     public DadosPessoais() {
     }
 
@@ -38,6 +40,14 @@ public class DadosPessoais {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
 }
