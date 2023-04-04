@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Exemplo formulário</h1>
+    <div class="container-md">
+        <form method="post" id="frmDados">
+            <div class="mb-3">
+                <label for="txtNome" class="form-label">Nome</label>
+                <input type="text" name="nome" class="form-control" id="txtNome" placeholder="Nome completo" />
+            </div>
+            <div class="mb-3">
+                <label for="txtApelido" class="form-label">Apelido</label>
+                <input type="text" name="apelido" class="form-control" id="txtApelido"
+                    placeholder="Apelido com letras minúsculas e sem espaços" />
+            </div>
+            <div class="mb-3">
+                <label for="txtEmail" class="form-label">E-mail</label>
+                <input type="email" name="email" class="form-control" id="txtEmail"
+                    placeholder="Endereço de e-mail válido" />
+            </div>
+            <div class="mb-3">
+                <label for="txtTelefone" class="form-label">Telefone</label>
+                <input type="text" name="telefone" class="form-control" id="txtTelefone"
+                    placeholder="Telefone no formato (99) 99999-9999" />
+            </div>
+            <div class="mb-3">
+                <label for="txtDataNascimento" class="form-label">Data nascimento</label>
+                <input type="date" name="dataNascimento" class="form-control" id="txtDataNascimento" />
+            </div>
+            <fieldset>
+                <legend>Conhecimentos</legend>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="conhecimentos" type="checkbox" id="optJava" value="Java">
+                    <label class="form-check-label" for="optJava">Java</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="conhecimentos" type="checkbox" id="optHTML" value="HTML">
+                    <label class="form-check-label" for="optHTML">HTML</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="conhecimentos" type="checkbox" id="optCSS" value="CSS">
+                    <label class="form-check-label" for="optCSS">CSS</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="conhecimentos" type="checkbox" id="optJavascript" value="Javascript">
+                    <label class="form-check-label" for="optJavascript">Javascript</label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-success btn-lg">Enviar</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+
+        function enviarDadosJson(urlJson, dadosParaEnviar) {
+
+            // Versão com função anônima
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', urlJson, true);
+
+                xhr.setRequestHeader('Content-type', 'application/json');
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const dadosArr = JSON.parse(xhr.responseText);
+                        resolve(dadosArr);
+                    } else {
+                        reject({
+                            status: xhr.status,
+                            mensagem: 'Erro na requisição'
+                        });
+                    }
+                };
+                xhr.send(JSON.stringify(dadosParaEnviar));
+            });
+        }
+
+        const elForm = document.getElementById('frmDados');
+
+        elForm.onsubmit = function (evt) {
+            evt.preventDefault(); // Evita que o form execute a ação padrão
+
+            const elConhecimentosArr = document.querySelectorAll('input[name="conhecimentos"]:checked');
+
+            let conhecimentos = [];
+            for (let elOpcao of elConhecimentosArr) {
+                conhecimentos.push({
+                    nome: elOpcao.value
+                });
+            }
+            const dadosForm = {
+                nome: elForm.nome.value,
+                apelido: elForm.apelido.value,
+                email: elForm.email.value,
+                telefone: elForm.telefone.value,
+                dataNascimento: elForm.dataNascimento.value,
+                conhecimentos: conhecimentos
+            }
+            enviarDadosJson('/dados-pessoais', dadosForm).then((resp) => {
+                alert(JSON.stringify(resp));
+            }).catch((err) => {
+                alert(JSON.stringify(err));
+            });
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
