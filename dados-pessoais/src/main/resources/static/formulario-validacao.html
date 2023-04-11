@@ -12,7 +12,7 @@
 <body>
     <h1>Exemplo formulário</h1>
     <div class="container-md">
-        <form method="post" id="frmDados">
+        <form method="post" id="frmDados" novalidate>
             <div class="mb-3">
                 <label for="txtNome" class="form-label">Nome</label>
                 <input
@@ -93,6 +93,17 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script>
+        function limparErros() {
+            const elInputs = document.querySelectorAll('.is-invalid');
+            for (const el of elInputs) {
+                el.classList.remove('is-invalid');
+            }
+
+            const erros = document.querySelectorAll('.invalid-feedback');
+            for (const elMsgErro of erros) {
+                elMsgErro.remove();
+            }
+        }
 
         function enviarDadosJson(urlJson, dadosParaEnviar) {
 
@@ -108,10 +119,29 @@
                         const dadosArr = JSON.parse(xhr.responseText);
                         resolve(dadosArr);
                     } else {
-                        reject({
-                            status: xhr.status,
-                            mensagem: 'Erro na requisição'
-                        });
+                        if (xhr.status === 400) {
+                            // Assumir que houve erro de validacao
+                            const camposErros = []
+                            console.log(xhr.responseText)
+
+                            const dadosErro = JSON.parse(xhr.responseText)
+                            for (const err of dadosErro.errors) {
+                                camposErros.push({
+                                    campo: err.field,
+                                    mensagem: err.defaultMessage
+                                });
+                            }
+                            reject({
+                                status: xhr.status,
+                                mensagem: 'Erro na validação dos dados',
+                                erros: camposErros
+                            });
+                        } else {
+                            reject({
+                                status: xhr.status,
+                                mensagem: 'Erro na requisição'
+                            });
+                        }
                     }
                 };
                 xhr.send(JSON.stringify(dadosParaEnviar));
@@ -122,7 +152,7 @@
 
         elForm.onsubmit = function (evt) {
             evt.preventDefault(); // Evita que o form execute a ação padrão
-
+            
             const elConhecimentosArr = document.querySelectorAll('input[name="conhecimentos"]:checked');
 
             let conhecimentos = [];
@@ -139,9 +169,21 @@
                 dataNascimento: elForm.dataNascimento.value,
                 conhecimentos: conhecimentos
             }
+            limparErros();
             enviarDadosJson('/dados-pessoais', dadosForm).then((resp) => {
                 alert(JSON.stringify(resp));
             }).catch((err) => {
+                if (err.status === 400) {
+                    // Lógica adicional para mostrar os erros na tela
+                    for (const erro of err.erros) {
+                        const campo = erro.campo;
+                        const elInput = document.querySelector('input[name="' + campo + '"]');
+                        if (elInput) {
+                            elInput.classList.add('is-invalid')
+                        }
+                        elInput.insertAdjacentHTML('afterend', '<p class="invalid-feedback">' + erro.mensagem + "</p>");
+                    }
+                }
                 alert(JSON.stringify(err));
             });
         }

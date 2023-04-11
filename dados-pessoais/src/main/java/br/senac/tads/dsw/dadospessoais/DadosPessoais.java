@@ -3,20 +3,35 @@ package br.senac.tads.dsw.dadospessoais;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
+
 public class DadosPessoais {
 
     private Integer id;
 
+    @NotBlank
+    @Size(max = 100)
     private String nome;
 
+    @NotBlank
+    @Size(max = 64)
     private String apelido;
 
+    @NotBlank
+    @Size(max = 100)
+    @Email
     private String email;
 
+    @Size(max = 15)
     private String telefone;
 
+    @PastOrPresent
     private LocalDate dataNascimento;
 
+    @Size(min = 1)
     private List<Conhecimento> conhecimentos;
 
     public DadosPessoais() {

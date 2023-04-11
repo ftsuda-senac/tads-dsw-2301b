@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/dados-pessoais")
 public class DadosPessoaisController {
@@ -77,7 +79,8 @@ public class DadosPessoaisController {
     }
 
     @PostMapping
-    public DadosPessoais criarDadosPessoais(@RequestBody DadosPessoais dadosEnviados) {
+    public DadosPessoais salvar(
+        @RequestBody @Valid DadosPessoais dadosEnviados) {
         listaDados.put(dadosEnviados.getApelido(), dadosEnviados);
         return dadosEnviados;
     }
