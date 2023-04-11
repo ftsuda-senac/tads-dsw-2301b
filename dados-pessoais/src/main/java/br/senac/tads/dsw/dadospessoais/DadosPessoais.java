@@ -12,7 +12,7 @@ public class DadosPessoais {
 
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Preencha seu nome completo seu animal")
     @Size(max = 100)
     private String nome;
 
@@ -31,7 +31,7 @@ public class DadosPessoais {
     @PastOrPresent
     private LocalDate dataNascimento;
 
-    @Size(min = 1)
+    @Size(min = 1, message = "Selecione pelo menos 1 conhecimento")
     private List<Conhecimento> conhecimentos;
 
     public DadosPessoais() {
