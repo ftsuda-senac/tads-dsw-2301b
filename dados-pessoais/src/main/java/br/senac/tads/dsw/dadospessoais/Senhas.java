@@ -20,6 +20,8 @@ public class Senhas {
 
     private String repeticao;
 
+    private String hash;
+
     public String getValor() {
         return valor;
     }
@@ -34,6 +36,14 @@ public class Senhas {
 
     public void setRepeticao(String repeticao) {
         this.repeticao = repeticao;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
     
 }
