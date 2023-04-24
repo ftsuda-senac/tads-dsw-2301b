@@ -1,6 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "dados-pessoais"
+        "dados-pessoais-bd"
     ],
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic"
