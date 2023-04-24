@@ -9,13 +9,18 @@ import jakarta.validation.constraints.Size;
 public class Senhas {
 
     @NotBlank
-    // @Size(min = 8)
+    @Size(min = 8)
+    @Pattern.List({
+        @Pattern(regexp = "[a-z]{1,}", message = "Não tem caractere minúsculo"),
+        @Pattern(regexp = "[A-Z]{1,}", message = "Não tem caractere maiúsculo"),
+        @Pattern(regexp = "[0-9]{1,}", message = "Não tem caractere numérico"),
+        @Pattern(regexp = "[!@#$%^&*+=?-_()/\"\\.,<>~`;:]{1,}", message = "Não tem caractere especial")
+    })
     // @Pattern(regexp = "[a-z]{1,}", message = "Não tem caractere minúsculo")
     // @Pattern(regexp = "[A-Z]{1,}", message = "Não tem caractere maiúsculo")
     // @Pattern(regexp = "[0-9]{1,}", message = "Não tem caractere numérico")
     // @Pattern(regexp = "[!@#$%^&*()\\-__+.]{1,}", message = "Não tem caractere especial")
-    @Pattern(regexp = "(?=(.*[a-z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
-
+    // @Pattern(regexp = "(?=(.*[a-z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
     private String valor;
 
     private String repeticao;
