@@ -2,14 +2,15 @@ package br.senac.tads.dsw.dadospessoais;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,7 +34,7 @@ public class DadosPessoaisController {
         dados.setApelido("fulano");
         dados.setTelefone("(11) 99999-1122");
         dados.setDataNascimento(LocalDate.parse("2000-10-20")); // LocalDate.of(20, 10, 2000)
-        List<Conhecimento> conhecimentos = new ArrayList<>();
+        Set<Conhecimento> conhecimentos = new LinkedHashSet<>();
         conhecimentos.add(new Conhecimento(1, "Java"));
         conhecimentos.add(new Conhecimento(2, "HTML"));
         conhecimentos.add(new Conhecimento(3, "CSS"));
