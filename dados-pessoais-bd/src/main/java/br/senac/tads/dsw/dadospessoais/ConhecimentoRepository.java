@@ -1,13 +1,8 @@
 package br.senac.tads.dsw.dadospessoais;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ConhecimentoRepository {
+public interface ConhecimentoRepository
+    extends JpaRepository<Conhecimento, Integer> {
     
-    List<Conhecimento> findAll();
-
-    Optional<Conhecimento> findById(Integer id);
-
-    Conhecimento save(Conhecimento c);
 }

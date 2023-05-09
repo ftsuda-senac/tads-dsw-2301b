@@ -66,7 +66,7 @@
                     maxlength="10"
                     />
             </div>
-            <fieldset>
+            <fieldset id="fieldConhecimentos">
                 <legend>Conhecimentos</legend>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="conhecimentos" type="checkbox" id="optJava" value="Java">
@@ -103,6 +103,34 @@
             for (const elMsgErro of erros) {
                 elMsgErro.remove();
             }
+        }
+
+
+        function buscarDadosJson(urlJson, params) {
+            // Versão com função anônima
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                let urlAjustada = urlJson;
+                if (params) {
+                    urlAjustada = urlAjustada + '?' + params 
+                }
+                xhr.open('GET', urlJson, true);
+
+                xhr.setRequestHeader('Content-type', 'application/json');
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const dadosArr = JSON.parse(xhr.responseText);
+                        resolve(dadosArr);
+                    } else {
+                        reject({
+                            status: xhr.status,
+                            mensagem: 'Erro na requisição'
+                        });
+                    }
+                };
+                xhr.send();
+            });
         }
 
         function enviarDadosJson(urlJson, dadosParaEnviar) {
@@ -155,11 +183,9 @@
             
             const elConhecimentosArr = document.querySelectorAll('input[name="conhecimentos"]:checked');
 
-            let conhecimentos = [];
+            let conhecimentosIds = [];
             for (let elOpcao of elConhecimentosArr) {
-                conhecimentos.push({
-                    nome: elOpcao.value
-                });
+                conhecimentosIds.push(elOpcao.value);
             }
             const dadosForm = {
                 nome: elForm.nome.value,
@@ -167,7 +193,7 @@
                 email: elForm.email.value,
                 telefone: elForm.telefone.value,
                 dataNascimento: elForm.dataNascimento.value,
-                conhecimentos: conhecimentos
+                conhecimentosIds: conhecimentosIds
             }
             limparErros();
             enviarDadosJson('/dados-pessoais', dadosForm).then((resp) => {
@@ -193,7 +219,20 @@
             new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000
         ).toISOString().substring(0, 10);
 
+        buscarDadosJson('/conhecimentos').then((resp) => {
+            const elFieldset = document.getElementById('fieldConhecimentos');
+            elFieldset.innerHTML = '';
 
+            let htmlConhecimentos = '<legend>Conhecimentos</legend>';
+            for (const c of resp) {
+                htmlConhecimentos += `
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="conhecimentos" type="checkbox" id="opt${c.id}" value="${c.id}">
+                    <label class="form-check-label" for="opt${c.id}">${c.nome}</label>
+                </div>`
+            }
+            elFieldset.insertAdjacentHTML('beforeend', htmlConhecimentos);
+        })
 
 
     </script>

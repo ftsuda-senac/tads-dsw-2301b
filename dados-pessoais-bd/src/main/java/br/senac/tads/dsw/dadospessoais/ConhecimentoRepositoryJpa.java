@@ -11,13 +11,14 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
-@Repository
-public class ConhecimentoRepositoryJpa implements ConhecimentoRepository {
+// Comentando integração com Interface para evitar conflitos
+// com Spring Data JPA
+public class ConhecimentoRepositoryJpa  /* implements ConhecimentoRepository */ {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Override
+    // @Override
     public List<Conhecimento> findAll() {
         TypedQuery<Conhecimento> jpqlQuery = 
             em.createQuery("SELECT c FROM Conhecimento c", Conhecimento.class);
@@ -25,7 +26,7 @@ public class ConhecimentoRepositoryJpa implements ConhecimentoRepository {
         return resultados;
     }
 
-    @Override
+    // @Override
     public Optional<Conhecimento> findById(Integer id) {
         TypedQuery<Conhecimento> jpqlQuery =
             em.createQuery("SELECT c FROM Conhecimento c WHERE c.id = :idParam", 
@@ -43,7 +44,7 @@ public class ConhecimentoRepositoryJpa implements ConhecimentoRepository {
         }
     }
 
-    @Override
+    // @Override
     @Transactional
     public Conhecimento save(Conhecimento c) {
         if (c.getId() == null) {

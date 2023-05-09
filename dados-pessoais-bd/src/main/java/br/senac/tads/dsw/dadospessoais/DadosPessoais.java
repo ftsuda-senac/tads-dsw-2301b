@@ -1,11 +1,11 @@
 package br.senac.tads.dsw.dadospessoais;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,7 +50,7 @@ public class DadosPessoais {
     private LocalDate dataNascimento;
 
     @Size(min = 1, message = "Selecione pelo menos 1 conhecimento")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "pessoa_conhecimento",
         joinColumns = @JoinColumn(name = "pessoa_id"),

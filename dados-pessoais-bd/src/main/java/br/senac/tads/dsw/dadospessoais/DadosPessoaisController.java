@@ -1,14 +1,14 @@
 package br.senac.tads.dsw.dadospessoais;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
@@ -25,80 +27,47 @@ import jakarta.validation.Valid;
 @RequestMapping("/dados-pessoais")
 public class DadosPessoaisController {
 
-    private Map<String, DadosPessoais> listaDados = new LinkedHashMap<>();
-
-    public DadosPessoaisController() {
-        DadosPessoais dados = new DadosPessoais();
-        dados.setNome("Fulano da Silva");
-        dados.setEmail("fulano@teste.com.br");
-        dados.setApelido("fulano");
-        dados.setTelefone("(11) 99999-1122");
-        dados.setDataNascimento(LocalDate.parse("2000-10-20")); // LocalDate.of(20, 10, 2000)
-        Set<Conhecimento> conhecimentos = new LinkedHashSet<>();
-        conhecimentos.add(new Conhecimento(1, "Java"));
-        conhecimentos.add(new Conhecimento(2, "HTML"));
-        conhecimentos.add(new Conhecimento(3, "CSS"));
-        conhecimentos.add(new Conhecimento(4, "Javascript"));
-        dados.setConhecimentos(conhecimentos);
-
-        // dados.setConhecimentos(Arrays.asList(new Conhecimento(1, "Java"),
-        // new Conhecimento(2, "HTML"),
-        // new Conhecimento(3, "CSS"),
-        // new Conhecimento(4, "Javascript")
-        // );
-        listaDados.put(dados.getApelido(), dados);
-    }
+    @Autowired
+    private DadosPessoaisService service;
 
     @GetMapping
-    public List<DadosPessoais> obterTodosDados() {
-        return new ArrayList<>(listaDados.values());
+    public List<DadosPessoaisDto> findAll(
+        @RequestParam(value = "pagina", defaultValue = "0") int pagina,
+        @RequestParam(value = "quantidade", defaultValue = "3") int quantidade,
+        @RequestParam(value = "textoBusca", required = false) String textoBusca) {
+            return service.findAll(pagina, quantidade, textoBusca);
+    }
+    @GetMapping("/paged")
+    public Page<DadosPessoaisDto> findAllPaged(
+        @RequestParam(value = "pagina", defaultValue = "0") int pagina,
+        @RequestParam(value = "quantidade", defaultValue = "3") int quantidade,
+        @RequestParam(value = "textoBusca", required = false) String textoBusca) {
+            return service.findAllPaged(pagina, quantidade, textoBusca);
     }
 
     @GetMapping("/{apelido}")
-    public DadosPessoais obterDadosPorApelido(@PathVariable String apelido) {
-        return listaDados.get(apelido);
-    }
-
-    // @GetMapping("/enviar")
-    @PostMapping("/enviar")
-    public DadosPessoais enviarDadosBasico(
-        @RequestParam("nome") String nome,
-        @RequestParam("apelido") String apelido,
-        @RequestParam("email") String email,
-        @RequestParam("telefone") String telefone,
-        @RequestParam("dataNascimento") String dataNascimentoStr
-    ) {
-        DadosPessoais dados = new DadosPessoais();
-        dados.setNome(nome);
-        dados.setApelido(apelido);
-        dados.setEmail(email);
-        dados.setTelefone(telefone);
-        dados.setDataNascimento(LocalDate.parse(dataNascimentoStr));
-
-        listaDados.put(apelido, dados);
-        return dados;
+    public DadosPessoaisDto findByApelido(@PathVariable String apelido) {
+        return service.findByApelido(apelido);
     }
 
     @PostMapping
-    public DadosPessoais salvar(
-        @RequestBody @Valid DadosPessoais dadosEnviados) {
-        listaDados.put(dadosEnviados.getApelido(), dadosEnviados);
-        return dadosEnviados;
+    public ResponseEntity<Void> addNew(@RequestBody @Valid DadosPessoaisDto dados) {
+        service.addNew(dados);
+        URI location = ServletUriComponentsBuilder
+        .fromCurrentRequest().path("/{apelido}")
+        .buildAndExpand(dados.apelido()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{apelido}")
-    public DadosPessoais atualizarDadosPessoais(
-        @PathVariable String apelido, 
-        @RequestBody DadosPessoais dadosEnviados) {
-
-        return null;
+    public void update(@PathVariable String apelido, 
+            @RequestBody @Valid DadosPessoaisDto dados) {
+        service.update(apelido, dados);
     }
 
     @DeleteMapping("/{apelido}")
-    public void apagarDadosPessoais(@PathVariable String apelido) {
-
+    public void delete(@PathVariable String apelido) {
+        service.delete(apelido);
     }
-
-
     
 }
