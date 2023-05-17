@@ -4,7 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
@@ -38,6 +40,12 @@ public class LoginController {
         Claims claims = Jwts.claims()
         .setSubject(usuario.getUsername());
         claims.put("name", "Steve Rogers");
+
+        List<String> nomesPapeis = new ArrayList<>();
+        for (Papel papel : usuario.getPapeis()) {
+            nomesPapeis.add(papel.getNome());
+        }
+        claims.put("scope", nomesPapeis);
         
 
         Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);

@@ -24,7 +24,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+    public AuthenticationManager 
+        authenticationManager(AuthenticationConfiguration config)
         throws Exception {
         return config.getAuthenticationManager();
     }
@@ -40,6 +41,8 @@ public class SecurityConfig {
         http.csrf().disable()
         .authorizeHttpRequests()
             .requestMatchers("/login").permitAll()
+            .requestMatchers("/dados-pessoais").authenticated()
+            .requestMatchers("/conhecimentos").hasAuthority("ADMIN")
             .anyRequest().authenticated()
         .and()
         .formLogin().disable()
