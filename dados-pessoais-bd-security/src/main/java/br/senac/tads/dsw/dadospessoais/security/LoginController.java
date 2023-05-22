@@ -39,7 +39,7 @@ public class LoginController {
 
         Claims claims = Jwts.claims()
         .setSubject(usuario.getUsername());
-        claims.put("name", "Steve Rogers");
+        claims.put("name", usuario.getNome());
 
         List<String> nomesPapeis = new ArrayList<>();
         for (Papel papel : usuario.getPapeis()) {
@@ -47,7 +47,6 @@ public class LoginController {
         }
         claims.put("scope", nomesPapeis);
         
-
         Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuedAt.plus(1, ChronoUnit.HOURS);
 

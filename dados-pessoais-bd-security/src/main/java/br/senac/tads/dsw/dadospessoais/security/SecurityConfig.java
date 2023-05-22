@@ -24,9 +24,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager 
-        authenticationManager(AuthenticationConfiguration config)
-        throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
         return config.getAuthenticationManager();
     }
 
@@ -36,18 +35,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception  {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-        .authorizeHttpRequests()
-            .requestMatchers("/login").permitAll()
-            .requestMatchers("/dados-pessoais").authenticated()
-            .requestMatchers("/conhecimentos").hasAuthority("ADMIN")
-            .anyRequest().authenticated()
-        .and()
-        .formLogin().disable()
-        .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeHttpRequests()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/dados-pessoais").authenticated()
+                .requestMatchers("/conhecimentos").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Adicionando filtro no fluxo de autorização
         http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -55,6 +54,5 @@ public class SecurityConfig {
         return http.build();
 
     }
-    
+
 }
- 

@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String cabecalhoAuth = request.getHeader("Authorization");
         // "Bearer [TOKEN]"
         if (cabecalhoAuth != null && cabecalhoAuth.startsWith("Bearer")) {
-            String token = cabecalhoAuth.substring(7);
+            String token = cabecalhoAuth.substring(7); // Remove o texto "Bearer" e o espaço antes do token
 
             // Abrir e extrair informações do token
             Jws<Claims> claims = Jwts.parserBuilder()

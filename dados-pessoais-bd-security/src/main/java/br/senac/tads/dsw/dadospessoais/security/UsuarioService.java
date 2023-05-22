@@ -24,11 +24,11 @@ public class UsuarioService implements UserDetailsService {
     @PostConstruct
     public void init() {
         mapUsuarios.put("capitao",
-            new Usuario("capitao",
+            new Usuario("Steve Rogers", "capitao",
                 passwordEnconder.encode("Abcd1234"),
                 Arrays.asList(new Papel("ADMIN"), new Papel("USUARIO"))));
         mapUsuarios.put("soldado",
-                new Usuario("soldado",
+                new Usuario("Bucky Barnes", "soldado",
                 passwordEnconder.encode("Abcd1234"),
                 Arrays.asList(new Papel("USUARIO"))));
     }

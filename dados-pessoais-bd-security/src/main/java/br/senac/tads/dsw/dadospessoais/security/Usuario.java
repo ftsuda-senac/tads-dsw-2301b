@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class Usuario implements UserDetails {
 
+    private String nome;
+
     private String username;
 
     private String hashSenha;
@@ -16,10 +18,19 @@ public class Usuario implements UserDetails {
         
     }
 
-    public Usuario(String username, String hashSenha, List<Papel> papeis) {
+    public Usuario(String nome, String username, String hashSenha, List<Papel> papeis) {
+        this.nome = nome;
         this.username = username;
         this.hashSenha = hashSenha;
         this.papeis = papeis;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     @Override
