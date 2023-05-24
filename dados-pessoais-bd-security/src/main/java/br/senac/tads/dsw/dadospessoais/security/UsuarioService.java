@@ -26,10 +26,16 @@ public class UsuarioService implements UserDetailsService {
         mapUsuarios.put("capitao",
             new Usuario("Steve Rogers", "capitao",
                 passwordEnconder.encode("Abcd1234"),
+                "capitao@teste.com.br",
+                "(11) 99911-1111",
+                "capitao.jpg",
                 Arrays.asList(new Papel("ADMIN"), new Papel("USUARIO"))));
         mapUsuarios.put("soldado",
                 new Usuario("Bucky Barnes", "soldado",
                 passwordEnconder.encode("Abcd1234"),
+                "soldado@teste.com.br",
+                "(11) 99922-2222",
+                "soldado.jpg",
                 Arrays.asList(new Papel("USUARIO"))));
     }
 

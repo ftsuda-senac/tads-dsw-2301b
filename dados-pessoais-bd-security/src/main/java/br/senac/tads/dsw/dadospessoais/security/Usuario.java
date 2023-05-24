@@ -12,6 +12,12 @@ public class Usuario implements UserDetails {
 
     private String hashSenha;
 
+    private String email;
+
+    private String telefone;
+
+    private String arquivoFoto;
+
     private List<Papel> papeis;
 
     public Usuario() {
@@ -23,6 +29,13 @@ public class Usuario implements UserDetails {
         this.username = username;
         this.hashSenha = hashSenha;
         this.papeis = papeis;
+    }
+
+    public Usuario(String nome, String username, String hashSenha, String telefone, String email, String arquivoFoto, List<Papel> papeis) {
+        this(nome, username, hashSenha, papeis);
+        this.email = email;
+        this.telefone = telefone;
+        this.arquivoFoto = arquivoFoto;
     }
 
     public String getNome() {
@@ -48,6 +61,30 @@ public class Usuario implements UserDetails {
 
     public void setHashSenha(String hashSenha) {
         this.hashSenha = hashSenha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getArquivoFoto() {
+        return arquivoFoto;
+    }
+
+    public void setArquivoFoto(String arquivoFoto) {
+        this.arquivoFoto = arquivoFoto;
     }
 
     public List<Papel> getPapeis() {

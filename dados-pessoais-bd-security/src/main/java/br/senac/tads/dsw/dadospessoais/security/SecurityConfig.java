@@ -39,9 +39,9 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/dados-pessoais").authenticated()
-                .requestMatchers("/conhecimentos").hasAuthority("ADMIN")
+                .requestMatchers("/login", "/login.html", "/paginas/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/dados-pessoais", "/me").authenticated()
+                .requestMatchers("/conhecimentos/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
